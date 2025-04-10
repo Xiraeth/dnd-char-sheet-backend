@@ -5,6 +5,8 @@ import cors from "cors";
 import loginRoute from "./routes/login.js";
 import signupRoute from "./routes/signup.js";
 import logoutRoute from "./routes/logout.js";
+import createCharacterRoute from "./routes/createCharacter.js";
+import getUserCharactersRoute from "./routes/getUserCharacters.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
@@ -27,6 +29,8 @@ app.use(cookieParser());
 app.use("/", loginRoute);
 app.use("/", signupRoute);
 app.use("/", logoutRoute);
+app.use("/", createCharacterRoute);
+app.use("/", getUserCharactersRoute);
 
 // Connect to MongoDB
 mongoose

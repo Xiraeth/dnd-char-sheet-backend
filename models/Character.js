@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-import { spellSchema } from "./Spell";
-import { attackSchema } from "./Attack";
-import { featSchema } from "./Feat";
+import { spellSchema } from "./Spell.js";
+import { attackSchema } from "./Attack.js";
+import { featSchema } from "./Feat.js";
+
+// Define the Item schema for inventory items
+const itemSchema = new Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+});
 
 const characterSchema = new Schema({
   basicInfo: {
@@ -178,7 +184,8 @@ const characterSchema = new Schema({
   },
   inventory: {
     gold: { type: Number },
-    items: { type: [String] },
+    items: { type: [itemSchema] },
+    weight: { type: Number },
   },
   appearance: {
     age: { type: Number },
@@ -187,7 +194,6 @@ const characterSchema = new Schema({
     eyes: { type: String },
     hair: { type: String },
     skin: { type: String },
-    description: { type: String },
     photo: { type: String },
   },
   spellcasting: {
@@ -231,6 +237,7 @@ const characterSchema = new Schema({
   inspiration: { type: Number },
   characterBackstory: { type: String },
   notes: { type: String },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });

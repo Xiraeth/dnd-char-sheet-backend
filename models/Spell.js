@@ -4,16 +4,32 @@ const { Schema } = mongoose;
 export const spellSchema = new Schema({
   source: { type: String },
   name: { type: String, required: true },
-  level: { type: Number, required: true },
-  school: { type: String, required: true },
-  castingTime: { type: String, required: true },
-  range: { type: String, required: true },
-  components: {
-    verbal: { type: Boolean, required: true },
-    somatic: { type: Boolean, required: true },
-    material: { type: [String] },
+  level: { type: String, required: true },
+  school: {
+    name: { type: String },
+    desc: { type: String },
   },
+  casting_time: { type: String, required: true },
+  range: { type: String, required: true },
+  components: { type: [String], required: true },
   duration: { type: String, required: true },
-  description: { type: String, required: true },
-  descriptionAtHigherLevels: { type: String },
+  desc: { type: String, required: true },
+  higher_level: { type: [String], default: [] },
+  healing_at_slot_level: [
+    {
+      healing: { type: String },
+      level: { type: String },
+    },
+  ],
+  damage: {
+    damage_type: {
+      name: { type: String },
+    },
+    damage_at_slot_level: [
+      {
+        damage: { type: String },
+        level: { type: String },
+      },
+    ],
+  },
 });

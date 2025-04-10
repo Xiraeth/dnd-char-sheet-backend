@@ -1,69 +1,12 @@
 import express from "express";
 import Character from "../models/Character.js";
 import { protect } from "../middleware/auth.js";
+import { requiredFields } from "../constants.js";
 
 const router = express.Router();
 
 const validateCharacterData = (data) => {
   const errors = [];
-
-  // Required fields validation
-  const requiredFields = {
-    basicInfo: [
-      "name",
-      "race",
-      "class",
-      "level",
-      "alignment",
-      "background",
-      "playerName",
-    ],
-    abilities: [
-      "strength",
-      "dexterity",
-      "constitution",
-      "intelligence",
-      "wisdom",
-      "charisma",
-    ],
-    stats: [
-      "ac",
-      "initiative",
-      "speed",
-      "armorClass",
-      "hitPointsCurrent",
-      "hitPointsTotal",
-      "hitDice",
-      "hitDiceTotal",
-    ],
-    savingThrows: [
-      "strength",
-      "dexterity",
-      "constitution",
-      "intelligence",
-      "wisdom",
-    ],
-    skills: [
-      "acrobatics",
-      "animalHandling",
-      "arcana",
-      "athletics",
-      "deception",
-      "history",
-      "insight",
-      "intimidation",
-      "investigation",
-      "medicine",
-      "nature",
-      "perception",
-      "performance",
-      "persuasion",
-      "religion",
-      "sleightOfHand",
-      "stealth",
-      "survival",
-    ],
-  };
 
   // Check each required field group
   Object.entries(requiredFields).forEach(([group, fields]) => {
@@ -73,7 +16,7 @@ const validateCharacterData = (data) => {
     }
 
     fields.forEach((field) => {
-      if (data[group][field] === undefined) {
+      if (!data[group][field]) {
         errors.push(`Missing required field: ${group}.${field}`);
       }
     });
@@ -91,6 +34,7 @@ router.post("/create-character", protect, async (req, res) => {
   try {
     // Validate request body
     const validationErrors = validateCharacterData(req.body);
+
     if (validationErrors.length > 0) {
       return res.status(400).json({
         success: false,
@@ -106,13 +50,13 @@ router.post("/create-character", protect, async (req, res) => {
       savingThrows: req.body.savingThrows,
       skills: req.body.skills,
       deathSaves: req.body.deathSaves || { success: 0, failure: 0 },
-      inventory: req.body.inventory || { gold: 0, items: [] },
-      appearance: req.body.appearance,
-      spellcasting: req.body.spellcasting,
-      spellSlots: req.body.spellSlots,
-      spellSlotsExpanded: req.body.spellSlotsExpanded,
+      inventory: req.body.inventory || { gold: 0, items: [], weight: 0 },
+      appearance: req.body.appearance || {},
+      spellcasting: req.body.spellcasting || {},
+      spellSlots: req.body.spellSlots || {},
+      spellSlotsExpanded: req.body.spellSlotsExpanded || {},
       passiveWisdom: req.body.passiveWisdom,
-      features: req.body.features || [],
+      featuresAndTraits: req.body.featuresAndTraits || [],
       attacks: req.body.attacks || [],
       feats: req.body.feats || [],
       spells: req.body.spells || [],
@@ -131,7 +75,7 @@ router.post("/create-character", protect, async (req, res) => {
     await character.save();
 
     // Return success response
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       data: character,
     });
