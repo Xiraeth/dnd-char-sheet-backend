@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 import { spellSchema } from "./Spell.js";
 import { attackSchema } from "./Attack.js";
 import { featSchema } from "./Feat.js";
+import { featureSchema } from "./Feature.js";
 
 // Define the Item schema for inventory items
 const itemSchema = new Schema({
@@ -226,7 +227,7 @@ const characterSchema = new Schema(
       level9: { type: Number },
     },
     passiveWisdom: { type: Number },
-    featuresAndTraits: { type: [String], default: [] },
+    featuresAndTraits: { type: [featureSchema], default: [] },
     attacks: { type: [attackSchema], default: [] },
     feats: { type: [featSchema], default: [] },
     spells: { type: [spellSchema], default: [] },
@@ -234,7 +235,8 @@ const characterSchema = new Schema(
     ideals: { type: [String], default: [] },
     bonds: { type: [String], default: [] },
     flaws: { type: [String], default: [] },
-    otherProficienciesAndLanguages: { type: [String], default: [] },
+    otherProficiencies: { type: String, default: "" },
+    languages: { type: String, default: "" },
     inspiration: { type: Number },
     characterBackstory: { type: String },
     notes: { type: String },

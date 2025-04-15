@@ -8,6 +8,7 @@ import logoutRoute from "./routes/logout.js";
 import createCharacterRoute from "./routes/createCharacter.js";
 import getUserCharactersRoute from "./routes/getUserCharacters.js";
 import getCharacterRoute from "./routes/getCharacter.js";
+import deleteCharacterRoute from "./routes/deleteCharacter.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use("/", signupRoute);
 app.use("/", logoutRoute);
 app.use("/", createCharacterRoute);
 app.use("/", getUserCharactersRoute);
+app.use("/", deleteCharacterRoute);
 app.use("/", getCharacterRoute);
 
 // Connect to MongoDB

@@ -64,11 +64,12 @@ router.post("/create-character", protect, async (req, res) => {
       ideals: req.body.ideals || [],
       bonds: req.body.bonds || [],
       flaws: req.body.flaws || [],
-      otherProficienciesAndLanguages:
-        req.body.otherProficienciesAndLanguages || [],
+      otherProficiencies: req.body.otherProficiencies || "",
+      languages: req.body.languages || "",
       inspiration: req.body.inspiration || 0,
       characterBackstory: req.body.characterBackstory || "",
       notes: req.body.notes || "",
+      userId: req.user.userId,
     });
 
     // Save character
