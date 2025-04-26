@@ -314,15 +314,8 @@ export const verifyCharacterData = (data) => {
   // Check array fields
   ["personalityTraits", "ideals", "bonds", "flaws"].forEach((field) => {
     if (data[field]) {
-      if (!Array.isArray(data[field])) {
-        errors.push(`${field} must be an array`);
-      } else {
-        // Check that all elements in the array are strings
-        data[field].forEach((item, index) => {
-          if (!isValidString(item)) {
-            errors.push(`${field}[${index}] must be a string`);
-          }
-        });
+      if (!isValidString(data[field])) {
+        errors.push(`${field} must be a string`);
       }
     }
   });
