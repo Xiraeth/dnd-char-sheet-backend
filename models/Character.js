@@ -190,9 +190,9 @@ const characterSchema = new Schema(
       weight: { type: Number },
     },
     appearance: {
-      age: { type: Number },
-      height: { type: Number },
-      weight: { type: Number },
+      age: { type: String },
+      height: { type: String },
+      weight: { type: String },
       eyes: { type: String },
       hair: { type: String },
       skin: { type: String },
