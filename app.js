@@ -9,11 +9,16 @@ import createCharacterRoute from "./routes/createCharacter.js";
 import getUserCharactersRoute from "./routes/getUserCharacters.js";
 import getCharacterRoute from "./routes/getCharacter.js";
 import deleteCharacterRoute from "./routes/deleteCharacter.js";
+import updateCharacterRoute from "./routes/updateCharacter.js";
 import cookieParser from "cookie-parser";
+
+// Load environment variables
 dotenv.config();
 
+// Initialize Express app
 const app = express();
 
+// Middleware
 app.use(express.json());
 app.use(
   cors({
@@ -35,12 +40,23 @@ app.use("/", createCharacterRoute);
 app.use("/", getUserCharactersRoute);
 app.use("/", deleteCharacterRoute);
 app.use("/", getCharacterRoute);
+app.use("/", updateCharacterRoute);
 
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    success: false,
+    message: "Something went wrong!",
+    error: process.env.NODE_ENV === "development" ? err.message : undefined,
+  });
+});
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
