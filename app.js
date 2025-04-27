@@ -19,10 +19,19 @@ dotenv.config();
 const app = express();
 
 // Middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  console.log("Headers:", req.headers);
+  next();
+});
+
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://dnd-char-sheet-backend-production.up.railway.app",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
