@@ -4,7 +4,7 @@ export const protect = async (req, res, next) => {
   try {
     // Get token from cookie or Authorization header
     let token = req.cookies.token;
-
+    console.log("Token:", token);
     if (!token) {
       // Check Authorization header
       const authHeader = req.headers.authorization;
@@ -12,7 +12,7 @@ export const protect = async (req, res, next) => {
         token = authHeader.split(" ")[1];
       }
     }
-
+    console.log("Token:", token);
     if (!token) {
       return res.status(401).json({
         success: false,
