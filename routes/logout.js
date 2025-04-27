@@ -11,11 +11,10 @@ const router = express.Router();
 router.post("/logout", protect, (req, res) => {
   try {
     res.clearCookie("token", {
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       sameSite: "none",
       path: "/",
-      domain: "dnd-char-sheet-backend-production.up.railway.app",
     });
 
     res.status(200).json({

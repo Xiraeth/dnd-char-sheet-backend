@@ -58,12 +58,11 @@ router.post("/login", async (req, res) => {
 
     // Set the cookie
     res.cookie("token", token, {
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
       path: "/",
-      domain: "dnd-char-sheet-backend-production.up.railway.app",
     });
 
     // Log response headers
