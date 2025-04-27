@@ -65,7 +65,7 @@ router.post("/login", async (req, res) => {
     });
 
     // Set the cookie
-    res.cookie("token", token, {
+    res.cookie("dnd-char-sheet-token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
