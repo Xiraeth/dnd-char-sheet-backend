@@ -56,18 +56,11 @@ router.post("/login", async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    console.log("Setting cookie for user:", username);
-    console.log("Cookie options:", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 24 * 60 * 60 * 1000,
-      path: "/",
-    });
-
     // Set the cookie
     res.cookie("token", token, {
       httpOnly: true,
+      // secure: process.env.NODE_ENV === "production",
+      // sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       secure: true,
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
