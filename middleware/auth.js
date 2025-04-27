@@ -2,8 +2,16 @@ import jwt from "jsonwebtoken";
 
 export const protect = async (req, res, next) => {
   try {
-    // Get token from cookie
-    const token = req.cookies.token;
+    // Get token from cookie or Authorization header
+    let token = req.cookies.token;
+
+    if (!token) {
+      // Check Authorization header
+      const authHeader = req.headers.authorization;
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        token = authHeader.split(" ")[1];
+      }
+    }
 
     if (!token) {
       return res.status(401).json({

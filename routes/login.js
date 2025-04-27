@@ -56,8 +56,10 @@ router.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      domain:
+        process.env.NODE_ENV === "production" ? ".railway.app" : "localhost",
     });
 
     // Return success response with token
@@ -67,6 +69,7 @@ router.post("/login", async (req, res) => {
         id: user._id,
         username: user.username,
       },
+      token: token,
     });
   } catch (error) {
     console.error("Login error:", error);
