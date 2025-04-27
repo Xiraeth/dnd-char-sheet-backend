@@ -56,20 +56,14 @@ router.post("/login", async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    console.log("Setting cookie with options:", {
-      httpOnly: true,
-      secure: true,
+    // Set the cookie
+    res.cookie("token", token, {
+      httpOnly: false,
+      secure: false,
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
       path: "/",
-    });
-
-    // Set the cookie
-    res.cookie("dnd-char-sheet-token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 24 * 60 * 60 * 1000,
+      domain: "dnd-char-sheet-backend-production.up.railway.app",
     });
 
     // Log response headers
@@ -82,6 +76,7 @@ router.post("/login", async (req, res) => {
         id: user._id,
         username: user.username,
       },
+      token: token,
     });
   } catch (error) {
     console.error("Login error:", error);
