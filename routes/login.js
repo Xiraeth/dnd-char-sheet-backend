@@ -12,10 +12,12 @@ const router = express.Router();
  */
 router.post("/login", async (req, res) => {
   try {
+    console.log("Login attempt:", req.body);
     const { username, password } = req.body;
 
     // Validate input
     if (!username || !password) {
+      console.log("Missing username or password");
       return res.status(400).json({
         success: false,
         message: "Please provide both username and password",
@@ -26,6 +28,7 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ username });
 
     if (!user) {
+      console.log("User not found:", username);
       return res.status(401).json({
         success: false,
         message: "Invalid credentials",
@@ -36,6 +39,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
+      console.log("Invalid password for user:", username);
       return res.status(401).json({
         success: false,
         message: "Invalid credentials",
@@ -52,15 +56,25 @@ router.post("/login", async (req, res) => {
       { expiresIn: "24h" }
     );
 
+    console.log("Setting cookie for user:", username);
+    console.log("Cookie options:", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
+    });
+
     // Set the cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      domain:
-        process.env.NODE_ENV === "production" ? ".railway.app" : "localhost",
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
     });
+
+    console.log("Cookie set, sending response");
 
     // Return success response with token
     res.status(200).json({
@@ -69,7 +83,6 @@ router.post("/login", async (req, res) => {
         id: user._id,
         username: user.username,
       },
-      token: token,
     });
   } catch (error) {
     console.error("Login error:", error);

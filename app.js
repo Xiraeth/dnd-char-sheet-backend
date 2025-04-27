@@ -20,18 +20,16 @@ const app = express();
 
 // Middleware
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  console.log("Headers:", req.headers);
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  console.log("Headers:", JSON.stringify(req.headers, null, 2));
+  console.log("Cookies:", req.cookies);
   next();
 });
 
 app.use(express.json());
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? "https://dnd-char-sheet-backend-production.up.railway.app"
-        : "http://localhost:3000",
+    origin: "http://localhost:3000",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
