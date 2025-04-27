@@ -50,6 +50,16 @@ app.use("/", deleteCharacterRoute);
 app.use("/", getCharacterRoute);
 app.use("/", updateCharacterRoute);
 
+// Debug route to check cookie
+app.get("/debug-cookie", (req, res) => {
+  console.log("Debug cookie route - Request cookies:", req.cookies);
+  console.log("Debug cookie route - Request headers:", req.headers);
+  res.json({
+    cookies: req.cookies,
+    headers: req.headers,
+  });
+});
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)

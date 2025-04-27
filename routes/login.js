@@ -56,18 +56,26 @@ router.post("/login", async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    // Set the cookie
-    res.cookie("token", token, {
+    console.log("Setting cookie with options:", {
       httpOnly: true,
-      // secure: process.env.NODE_ENV === "production",
-      // sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       secure: true,
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
       path: "/",
     });
 
-    console.log("Cookie set, sending response");
+    // Set the cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
+      domain: ".railway.app",
+    });
+
+    // Log response headers
+    console.log("Response headers:", res.getHeaders());
 
     // Return success response with token
     res.status(200).json({
