@@ -13,7 +13,6 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   try {
     const isProduction = process.env.NODE_ENV === "production";
-    console.log("Login attempt:", req.body);
     const { username, password } = req.body;
 
     // Validate input
@@ -65,9 +64,6 @@ router.post("/login", async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
       path: "/",
     });
-
-    // Log response headers
-    console.log("Response headers:", res.getHeaders());
 
     // Return success response with token
     res.status(200).json({

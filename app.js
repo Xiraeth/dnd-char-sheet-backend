@@ -42,16 +42,6 @@ app.use("/", deleteCharacterRoute);
 app.use("/", getCharacterRoute);
 app.use("/", updateCharacterRoute);
 
-// Debug route to check cookie
-app.get("/debug-cookie", (req, res) => {
-  console.log("Debug cookie route - Request cookies:", req.cookies);
-  console.log("Debug cookie route - Request headers:", req.headers);
-  res.json({
-    cookies: req.cookies,
-    headers: req.headers,
-  });
-});
-
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -70,5 +60,9 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(
+    process.env.NODE_ENV === "production"
+      ? `Production server is running`
+      : `Development server is running on port ${PORT}`
+  );
 });
