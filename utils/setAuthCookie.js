@@ -4,7 +4,7 @@ export function setAuthCookie(res, token) {
   res.cookie("token", token, {
     httpOnly: true,
     secure: isProduction, // Secure cookies only in production
-    sameSite: "None", // Cross-site in production, more relaxed in dev
+    sameSite: isProduction ? "none" : "lax", // Cross-site in production, more relaxed in dev
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     path: "/",
   });
