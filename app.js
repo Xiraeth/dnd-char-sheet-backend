@@ -18,18 +18,10 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 
-// Middleware
-app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-  console.log("Headers:", JSON.stringify(req.headers, null, 2));
-  console.log("Cookies:", req.cookies);
-  next();
-});
-
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", process.env.FRONTEND_URL],
+    origin: [process.env.ALLOWED_ORIGIN],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
