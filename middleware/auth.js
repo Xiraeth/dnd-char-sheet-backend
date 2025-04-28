@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { clearAuthCookie } from "../utils/deleteAuthCookie.js";
 
 export const protect = async (req, res, next) => {
   try {
@@ -12,6 +13,7 @@ export const protect = async (req, res, next) => {
       }
     }
     if (!token) {
+      clearAuthCookie(res);
       return res.status(401).json({
         success: false,
         message: "No token, authorization denied",

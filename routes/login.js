@@ -2,6 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import { setAuthCookie } from "../utils/setAuthCookie.js";
 
 const router = express.Router();
 
@@ -12,7 +13,6 @@ const router = express.Router();
  */
 router.post("/login", async (req, res) => {
   try {
-    const isProduction = process.env.NODE_ENV === "production";
     const { username, password } = req.body;
 
     // Validate input
@@ -56,14 +56,7 @@ router.post("/login", async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    // Set the cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
-      maxAge: 24 * 60 * 60 * 1000,
-      path: "/",
-    });
+    setAuthCookie(res, token);
 
     // Return success response with token
     res.status(200).json({
@@ -72,7 +65,6 @@ router.post("/login", async (req, res) => {
         id: user._id,
         username: user.username,
       },
-      token: token,
     });
   } catch (error) {
     console.error("Login error:", error);

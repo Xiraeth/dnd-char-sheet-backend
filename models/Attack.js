@@ -3,11 +3,23 @@ const { Schema } = mongoose;
 
 export const attackSchema = new Schema({
   name: { type: String, required: true },
-  attackRoll: { type: String },
-  damageRoll: { type: String },
-  damageType: { type: String },
-  range: { type: String },
+  attackRoll: {
+    type: {
+      modifier: { type: Number, required: true },
+    },
+  },
+  damageRoll: {
+    type: {
+      numberOfDice: { type: Number, required: true },
+      diceType: { type: String, required: true },
+      abilityUsed: { type: String },
+    },
+  },
+  damageType: { type: String, required: true },
+  range: { type: String, required: true },
   description: { type: String },
   abilitySave: { type: String },
   areaOfEffect: { type: String },
+  otherModifier: { type: Number },
+  isProficient: { type: Boolean },
 });
