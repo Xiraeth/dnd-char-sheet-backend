@@ -12,6 +12,7 @@ const router = express.Router();
  */
 router.post("/login", async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
     console.log("Login attempt:", req.body);
     const { username, password } = req.body;
 
