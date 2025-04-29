@@ -20,6 +20,7 @@ export const attackSchema = new Schema({
   description: { type: String },
   abilitySave: { type: String },
   areaOfEffect: { type: String },
-  otherModifier: { type: Number },
+  otherAttackRollModifier: { type: Number },
+  otherDamageModifier: { type: Number },
   isProficient: { type: Boolean },
 });
