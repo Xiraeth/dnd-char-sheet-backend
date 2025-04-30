@@ -25,7 +25,7 @@ router.get("/:characterId", protect, async (req, res) => {
     }
     res.status(200).json({
       success: true,
-      character: character.toJSON({ virtuals: true }),
+      character,
     });
   } catch (error) {
     res.status(500).json({

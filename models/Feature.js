@@ -7,7 +7,7 @@ export const featureSchema = new Schema({
   source: { type: String },
   isExpendable: { type: Boolean },
   usesTotal: { type: Number },
-  usesRemaining: { type: Number },
+  usesLeft: { type: Number },
   areUsesTotalEqualToProfBonus: { type: Boolean },
   rechargeOn: { type: String },
 });

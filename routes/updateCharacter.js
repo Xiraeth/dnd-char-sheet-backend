@@ -5,7 +5,7 @@ import { validateCharacterData } from "../middleware/validateCharacterData.js";
 const router = express.Router();
 
 /**
- * @route PUT /update-character/:id
+ * @route PUT /:characterId/update
  * @desc Update a character
  * @access Private
  */

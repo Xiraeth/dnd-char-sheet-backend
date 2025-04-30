@@ -48,26 +48,32 @@ const characterSchema = new Schema(
       strength: {
         value: { type: Number, required: true },
         hasProficiency: { type: Boolean, required: true, default: false },
+        otherModifier: { type: Number, default: 0 },
       },
       dexterity: {
         value: { type: Number, required: true },
         hasProficiency: { type: Boolean, required: true, default: false },
+        otherModifier: { type: Number, default: 0 },
       },
       constitution: {
         value: { type: Number, required: true },
         hasProficiency: { type: Boolean, required: true, default: false },
+        otherModifier: { type: Number, default: 0 },
       },
       intelligence: {
         value: { type: Number, required: true },
         hasProficiency: { type: Boolean, required: true, default: false },
+        otherModifier: { type: Number, default: 0 },
       },
       wisdom: {
         value: { type: Number, required: true },
         hasProficiency: { type: Boolean, required: true, default: false },
+        otherModifier: { type: Number, default: 0 },
       },
       charisma: {
         value: { type: Number, required: true },
         hasProficiency: { type: Boolean, required: true, default: false },
+        otherModifier: { type: Number, default: 0 },
       },
     },
     skills: {

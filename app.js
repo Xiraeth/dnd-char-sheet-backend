@@ -10,7 +10,10 @@ import getUserCharactersRoute from "./routes/getUserCharacters.js";
 import getCharacterRoute from "./routes/getCharacter.js";
 import deleteCharacterRoute from "./routes/deleteCharacter.js";
 import updateCharacterRoute from "./routes/updateCharacter.js";
+import expendFeatureRoute from "./routes/expendFeature.js";
 import cookieParser from "cookie-parser";
+
+import Character from "./models/Character.js";
 
 // Load environment variables
 dotenv.config();
@@ -41,6 +44,7 @@ app.use("/", getUserCharactersRoute);
 app.use("/", deleteCharacterRoute);
 app.use("/", getCharacterRoute);
 app.use("/", updateCharacterRoute);
+app.use("/", expendFeatureRoute);
 
 // Connect to MongoDB
 mongoose
