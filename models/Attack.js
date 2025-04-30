@@ -23,4 +23,5 @@ export const attackSchema = new Schema({
   otherAttackRollModifier: { type: Number },
   otherDamageModifier: { type: Number },
   isProficient: { type: Boolean },
+  actionType: { type: String },
 });

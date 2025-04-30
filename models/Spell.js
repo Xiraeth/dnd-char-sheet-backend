@@ -10,6 +10,7 @@ export const spellSchema = new Schema({
     desc: { type: String },
   },
   casting_time: { type: String, required: true },
+  actionType: { type: String },
   range: { type: String, required: true },
   components: { type: [String], required: true },
   duration: { type: String, required: true },

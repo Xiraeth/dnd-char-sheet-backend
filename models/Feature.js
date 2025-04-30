@@ -10,4 +10,5 @@ export const featureSchema = new Schema({
   usesLeft: { type: Number },
   areUsesTotalEqualToProfBonus: { type: Boolean },
   rechargeOn: { type: String },
+  actionType: { type: String },
 });
