@@ -10,7 +10,8 @@ import getUserCharactersRoute from "./routes/getUserCharacters.js";
 import getCharacterRoute from "./routes/getCharacter.js";
 import deleteCharacterRoute from "./routes/deleteCharacter.js";
 import updateCharacterRoute from "./routes/updateCharacter.js";
-import expendFeatureRoute from "./routes/expendFeature.js";
+import featureRoutes from "./routes/featureRoutes.js";
+import spellSlotRoutes from "./routes/spellSlotRoutes.js";
 import cookieParser from "cookie-parser";
 
 import Character from "./models/Character.js";
@@ -44,8 +45,8 @@ app.use("/", getUserCharactersRoute);
 app.use("/", deleteCharacterRoute);
 app.use("/", getCharacterRoute);
 app.use("/", updateCharacterRoute);
-app.use("/", expendFeatureRoute);
-
+app.use("/", featureRoutes);
+app.use("/", spellSlotRoutes);
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)

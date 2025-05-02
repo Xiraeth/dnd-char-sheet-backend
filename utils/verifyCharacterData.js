@@ -268,22 +268,33 @@ export const verifyCharacterData = (data) => {
     });
   }
 
-  // Check spellSlots and spellSlotsExpanded
-  ["spellSlots", "spellSlotsExpanded"].forEach((slotType) => {
-    if (data[slotType]) {
-      for (let i = 1; i <= 9; i++) {
-        const field = `level${i}`;
-        if (data[slotType][field]) {
-          validatedData[slotType][field] = convertToNumber(
-            data[slotType][field]
+  // Check spellSlots with new structure
+  if (data.spellSlots) {
+    for (let i = 1; i <= 9; i++) {
+      const field = `level${i}`;
+      if (data.spellSlots[field]) {
+        // Check current spell slots
+        if (data.spellSlots[field].current !== undefined) {
+          validatedData.spellSlots[field].current = convertToNumber(
+            data.spellSlots[field].current
           );
-          if (!isValidNumber(validatedData[slotType][field])) {
-            errors.push(`${slotType}.${field} must be a number`);
+          if (!isValidNumber(validatedData.spellSlots[field].current)) {
+            errors.push(`spellSlots.${field}.current must be a number`);
+          }
+        }
+
+        // Check total spell slots
+        if (data.spellSlots[field].total !== undefined) {
+          validatedData.spellSlots[field].total = convertToNumber(
+            data.spellSlots[field].total
+          );
+          if (!isValidNumber(validatedData.spellSlots[field].total)) {
+            errors.push(`spellSlots.${field}.total must be a number`);
           }
         }
       }
     }
-  });
+  }
 
   // Check other numeric fields
   if (data.passiveWisdom) {

@@ -229,26 +229,42 @@ const characterSchema = new Schema(
       spellAttackBonus: { type: Number },
     },
     spellSlots: {
-      level1: { type: Number },
-      level2: { type: Number },
-      level3: { type: Number },
-      level4: { type: Number },
-      level5: { type: Number },
-      level6: { type: Number },
-      level7: { type: Number },
-      level8: { type: Number },
-      level9: { type: Number },
-    },
-    spellSlotsExpanded: {
-      level1: { type: Number },
-      level2: { type: Number },
-      level3: { type: Number },
-      level4: { type: Number },
-      level5: { type: Number },
-      level6: { type: Number },
-      level7: { type: Number },
-      level8: { type: Number },
-      level9: { type: Number },
+      level1: {
+        current: { type: Number },
+        total: { type: Number },
+      },
+      level2: {
+        current: { type: Number },
+        total: { type: Number },
+      },
+      level3: {
+        current: { type: Number },
+        total: { type: Number },
+      },
+      level4: {
+        current: { type: Number },
+        total: { type: Number },
+      },
+      level5: {
+        current: { type: Number },
+        total: { type: Number },
+      },
+      level6: {
+        current: { type: Number },
+        total: { type: Number },
+      },
+      level7: {
+        current: { type: Number },
+        total: { type: Number },
+      },
+      level8: {
+        current: { type: Number },
+        total: { type: Number },
+      },
+      level9: {
+        current: { type: Number },
+        total: { type: Number },
+      },
     },
     passiveWisdom: { type: Number },
     featuresAndTraits: { type: [featureSchema], default: [] },
