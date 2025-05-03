@@ -22,10 +22,38 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 
+// Function to determine allowed origins based on environment
+const allowedOrigins = () => {
+  const origins = [];
+
+  // Always allow backend calls from localhost development
+  origins.push("http://localhost:3000");
+
+  // Add production origin if available
+  if (process.env.PRODUCTION_CLIENT_URL) {
+    origins.push(process.env.PRODUCTION_CLIENT_URL);
+  }
+
+  return origins;
+};
+
 app.use(express.json());
 app.use(
   cors({
-    origin: "*",
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps, curl requests)
+      if (!origin) return callback(null, true);
+      const origins = allowedOrigins();
+
+      if (
+        origins.indexOf(origin) !== -1 ||
+        process.env.NODE_ENV !== "production"
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
