@@ -6,6 +6,7 @@ export const attackSchema = new Schema({
   attackRoll: {
     type: {
       modifier: { type: Number, required: true },
+      addModifier: { type: Boolean, required: true },
     },
   },
   damageRoll: {
