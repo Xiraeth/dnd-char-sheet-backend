@@ -12,9 +12,8 @@ import deleteCharacterRoute from "./routes/deleteCharacter.js";
 import updateCharacterRoute from "./routes/updateCharacter.js";
 import featureRoutes from "./routes/featureRoutes.js";
 import spellSlotRoutes from "./routes/spellSlotRoutes.js";
+import userEchoRoute from "./routes/userEcho.js";
 import cookieParser from "cookie-parser";
-
-import Character from "./models/Character.js";
 
 // Load environment variables
 dotenv.config();
@@ -68,6 +67,7 @@ app.use(cookieParser());
 app.use("/", loginRoute);
 app.use("/", signupRoute);
 app.use("/", logoutRoute);
+app.use("/", userEchoRoute);
 app.use("/", createCharacterRoute);
 app.use("/", getUserCharactersRoute);
 app.use("/", deleteCharacterRoute);
@@ -75,6 +75,7 @@ app.use("/", getCharacterRoute);
 app.use("/", updateCharacterRoute);
 app.use("/", featureRoutes);
 app.use("/", spellSlotRoutes);
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)

@@ -5,6 +5,7 @@ export const protect = async (req, res, next) => {
   try {
     // Get token from cookie or Authorization header
     let token = req.cookies.token;
+
     if (!token) {
       // Check Authorization header
       const authHeader = req.headers.authorization;
@@ -12,6 +13,7 @@ export const protect = async (req, res, next) => {
         token = authHeader.split(" ")[1];
       }
     }
+
     if (!token) {
       clearAuthCookie(res);
       return res.status(401).json({
