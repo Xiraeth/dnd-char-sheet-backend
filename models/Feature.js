@@ -9,6 +9,10 @@ export const featureSchema = new Schema({
   usesTotal: { type: Number },
   usesLeft: { type: Number },
   areUsesTotalEqualToProfBonus: { type: Boolean },
+
+  // can be daily, longRest, shortRest, or longOrShortRest
   rechargeOn: { type: String },
+
+  // can be action, bonusAction, or reaction
   actionType: { type: String },
 });
