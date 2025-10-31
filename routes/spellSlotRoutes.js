@@ -38,7 +38,7 @@ router.put("/:characterId/expendSpellSlot", protect, async (req, res) => {
     if (spellSlot.current <= 0) {
       return res.status(400).json({
         success: false,
-        message: "This level of spell slot is already at 0  ",
+        message: "This level of spell slot is already at 0",
       });
     }
 

@@ -26,7 +26,7 @@ export const spellSchema = new Schema({
     damage_type: {
       name: { type: String },
     },
-    damage_at_slot_level: [
+    damage_at_character_level: [
       {
         damage: { type: String },
         level: { type: String },
