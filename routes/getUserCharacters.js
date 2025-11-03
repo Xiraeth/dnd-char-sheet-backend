@@ -12,7 +12,11 @@ const router = express.Router();
 router.get("/:userId/characters", protect, async (req, res) => {
   try {
     // Check if the requested user ID matches the authenticated user
-    if (req.user.userId.toString() !== req.params.userId) {
+    // Ensure both are strings for comparison
+    const authenticatedUserId = String(req.user.userId);
+    const requestedUserId = String(req.params.userId);
+
+    if (authenticatedUserId !== requestedUserId) {
       return res.status(403).json({
         success: false,
         message: "You are not authorized to access these characters",
