@@ -30,6 +30,8 @@ export const protect = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("Token verification error:", error); // Debug log
+    // Clear invalid cookie on verification error
+    clearAuthCookie(res);
     res.status(401).json({
       success: false,
       message: "Token is not valid",
