@@ -42,15 +42,21 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps, curl requests)
       if (!origin) return callback(null, true);
-      const origins = allowedOrigins();
 
-      if (
-        origins.indexOf(origin) !== -1 ||
-        process.env.NODE_ENV !== "production"
-      ) {
-        callback(null, true);
+      const origins = allowedOrigins();
+      const isProduction = process.env.NODE_ENV === "production";
+
+      // In production, only allow origins from the allowed list
+      // In development, allow all origins for easier local development
+      if (isProduction) {
+        if (origins.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
       } else {
-        callback(new Error("Not allowed by CORS"));
+        // Development mode: allow all origins
+        callback(null, true);
       }
     },
     credentials: true,
