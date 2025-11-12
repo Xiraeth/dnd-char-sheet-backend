@@ -17,6 +17,10 @@ const checkRequiredFields = (data) => {
     }
 
     fields.forEach((field) => {
+      if (typeof data[group][field] === "number" && data[group][field] === 0) {
+        return;
+      }
+
       if (!data[group][field]) {
         errors.push(`Missing required field: ${group}.${field}`);
       }
