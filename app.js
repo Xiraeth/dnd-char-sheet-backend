@@ -15,20 +15,21 @@ import spellSlotRoutes from "./routes/spellSlotRoutes.js";
 import userEchoRoute from "./routes/userEcho.js";
 import cookieParser from "cookie-parser";
 
-// Load environment variables
 dotenv.config();
 
-// Initialize Express app
 const app = express();
+const PORT = process.env.PORT
 
-// Function to determine allowed origins based on environment
+if (!PORT) {
+  throw new Error("PORT is not set in environment variables");
+};
+
+
 const allowedOrigins = () => {
   const origins = [];
 
-  // Always allow backend calls from localhost development
   origins.push("http://localhost:3000");
 
-  // Add production origin if available
   if (process.env.PRODUCTION_CLIENT_URL) {
     origins.push(process.env.PRODUCTION_CLIENT_URL);
   }
@@ -40,14 +41,11 @@ app.use(express.json());
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, curl requests)
       if (!origin) return callback(null, true);
 
       const origins = allowedOrigins();
       const isProduction = process.env.NODE_ENV === "production";
 
-      // In production, only allow origins from the allowed list
-      // In development, allow all origins for easier local development
       if (isProduction) {
         if (origins.indexOf(origin) !== -1) {
           callback(null, true);
@@ -55,7 +53,6 @@ app.use(
           callback(new Error("Not allowed by CORS"));
         }
       } else {
-        // Development mode: allow all origins
         callback(null, true);
       }
     },
@@ -69,7 +66,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-// Routes
 app.use("/", loginRoute);
 app.use("/", signupRoute);
 app.use("/", logoutRoute);
@@ -82,13 +78,11 @@ app.use("/", updateCharacterRoute);
 app.use("/", featureRoutes);
 app.use("/", spellSlotRoutes);
 
-// Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
@@ -98,7 +92,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5050;
+
 app.listen(PORT, () => {
   console.log(
     process.env.NODE_ENV === "production"

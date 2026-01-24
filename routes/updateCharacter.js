@@ -135,7 +135,7 @@ router.post("/:characterId/longRest", protect, async (req, res) => {
       [];
 
     for (const feature of expendableFeatures) {
-      if (feature.rechargeOn?.toLowerCase() === "longrest") {
+      if (["longrest", "longorshortrest"].includes(feature.rechargeOn?.toLowerCase()?.trim())) {
         feature.usesLeft = feature.usesTotal;
       }
     }
