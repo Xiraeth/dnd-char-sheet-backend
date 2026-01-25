@@ -10,6 +10,8 @@ import { featureSchema } from "./Feature.js";
 const itemSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
+  isConsumable: { type: Boolean },
+  amount: { type: Number },
 });
 
 const characterSchema = new Schema(

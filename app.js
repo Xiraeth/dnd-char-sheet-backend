@@ -12,6 +12,7 @@ import deleteCharacterRoute from "./routes/deleteCharacter.js";
 import updateCharacterRoute from "./routes/updateCharacter.js";
 import featureRoutes from "./routes/featureRoutes.js";
 import spellSlotRoutes from "./routes/spellSlotRoutes.js";
+import itemRoutes from "./routes/itemRoutes.js";
 import userEchoRoute from "./routes/userEcho.js";
 import cookieParser from "cookie-parser";
 
@@ -77,6 +78,7 @@ app.use("/", getCharacterRoute);
 app.use("/", updateCharacterRoute);
 app.use("/", featureRoutes);
 app.use("/", spellSlotRoutes);
+app.use("/", itemRoutes);
 
 mongoose
   .connect(process.env.MONGODB_URI)
