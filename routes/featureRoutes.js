@@ -13,6 +13,8 @@ router.put(
   protect,
   async (req, res) => {
     try {
+      const customChargeAmount = req?.query?.customChargeAmount ? +req?.query?.customChargeAmount : undefined;
+
       // Find character
       const character = await Character.findById(req.params.characterId);
 
@@ -63,8 +65,22 @@ router.put(
         });
       }
 
-      // Reduce usesLeft by 1
-      character.featuresAndTraits[featureIndex].usesLeft -= 1;
+      if (customChargeAmount && customChargeAmount > feature.usesLeft) {
+        return res.status(400).json({
+          success: false,
+          message: "Custom expenditure amount cannot be greater than the feature's remaining uses",
+        });
+      }
+
+      if (customChargeAmount && customChargeAmount > feature.usesTotal) {
+        return res.status(400).json({
+          success: false,
+          message: "Custom expenditure amount cannot be greater than the feature's total uses",
+        });
+      }
+
+      // Reduce usesLeft by the custom charge amount or 1
+      character.featuresAndTraits[featureIndex].usesLeft -= customChargeAmount || 1;
 
       // Save character
       await character.save();
@@ -96,6 +112,8 @@ router.put(
   protect,
   async (req, res) => {
     try {
+      const customChargeAmount = req?.query?.customChargeAmount ? +req?.query?.customChargeAmount : undefined;
+
       // Find character
       const character = await Character.findById(req.params.characterId);
 
@@ -146,8 +164,22 @@ router.put(
         });
       }
 
-      // Increase usesLeft by 1
-      character.featuresAndTraits[featureIndex].usesLeft += 1;
+      if (customChargeAmount && customChargeAmount > (feature.usesTotal - feature.usesLeft)) {
+        return res.status(400).json({
+          success: false,
+          message: "Custom recharge amount cannot be greater than the feature's missing uses",
+        });
+      }
+
+      if (customChargeAmount && customChargeAmount > feature.usesTotal) {
+        return res.status(400).json({
+          success: false,
+          message: "Custom recharge amount cannot be greater than the feature's total uses",
+        });
+      }
+
+      // Increase usesLeft by the custom charge amount or 1
+      character.featuresAndTraits[featureIndex].usesLeft += customChargeAmount || 1;
 
       // Save character
       await character.save();
