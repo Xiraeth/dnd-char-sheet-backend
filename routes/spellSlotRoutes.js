@@ -10,6 +10,8 @@ const router = express.Router();
  */
 router.put("/:characterId/expendSpellSlot", protect, async (req, res) => {
   try {
+    const customAmount = req?.query?.customAmount ? +req?.query?.customAmount : undefined;
+
     // Find character
     const character = await Character.findById(req.params.characterId);
 
@@ -30,6 +32,13 @@ router.put("/:characterId/expendSpellSlot", protect, async (req, res) => {
       });
     }
 
+    if (customAmount && customAmount <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Custom amount cannot be less than or equal to 0",
+      });
+    }
+
     const spellSlotLevel = req.body.spellSlotLevel;
 
     const spellSlot = character.spellSlots[`level${spellSlotLevel}`];
@@ -42,8 +51,15 @@ router.put("/:characterId/expendSpellSlot", protect, async (req, res) => {
       });
     }
 
-    // Reduce the current spell slot by 1
-    spellSlot.current -= 1;
+    if (customAmount && customAmount > spellSlot.current) {
+      return res.status(400).json({
+        success: false,
+        message: "Custom amount cannot be greater than the spell slot's current amount",
+      });
+    }
+
+    // Reduce the current spell slot by the custom amount or 1
+    spellSlot.current -= customAmount || 1;
 
     // Save the character
     await character.save();
@@ -71,6 +87,8 @@ router.put("/:characterId/expendSpellSlot", protect, async (req, res) => {
  */
 router.put("/:characterId/gainSpellSlot", protect, async (req, res) => {
   try {
+    const customAmount = req?.query?.customAmount ? +req?.query?.customAmount : undefined;
+
     // Find character
     const character = await Character.findById(req.params.characterId);
 
@@ -91,6 +109,13 @@ router.put("/:characterId/gainSpellSlot", protect, async (req, res) => {
       });
     }
 
+    if (customAmount && customAmount <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Custom amount cannot be less than or equal to 0",
+      });
+    }
+
     const spellSlotLevel = req.body.spellSlotLevel;
 
     const spellSlot = character.spellSlots[`level${spellSlotLevel}`];
@@ -99,6 +124,20 @@ router.put("/:characterId/gainSpellSlot", protect, async (req, res) => {
       return res.status(404).json({
         success: false,
         message: "Spell slot not found",
+      });
+    }
+
+    if (customAmount && customAmount > spellSlot.total) {
+      return res.status(400).json({
+        success: false,
+        message: "Custom amount cannot exceed the spell slot's total slots",
+      });
+    }
+
+    if (customAmount && customAmount > spellSlot.total - spellSlot.current) {
+      return res.status(400).json({
+        success: false,
+        message: "Custom amount cannot exceed the spell slot's missing slots",
       });
     }
 
@@ -111,7 +150,7 @@ router.put("/:characterId/gainSpellSlot", protect, async (req, res) => {
     }
 
     // Increase usesLeft by 1
-    spellSlot.current += 1;
+    spellSlot.current += customAmount || 1;
 
     // Save character
     await character.save();
